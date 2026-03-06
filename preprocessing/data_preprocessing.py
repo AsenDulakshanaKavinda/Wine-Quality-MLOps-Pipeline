@@ -41,3 +41,20 @@ class DataPreprocessing():
         except Exception as e:
             raise RuntimeError(f"Error while normalizing data, error: {str(e)}")
 
+    def data_split(self, df, target_col: str, test_size: float=0.2, random_state: int=42):
+        if not df:
+            raise ValueError("Missing dataframe")  
+
+        if not target_col:
+            raise ValueError("Missing target column") 
+
+        try:
+            X = df.drop(target_col, axis=1)    
+            y = df[target_col]
+
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+            return X_train, X_test, y_train, y_test
+        
+        except Exception as e:
+            raise RuntimeError(f"Error while splitting data, error: {str(e)}")
