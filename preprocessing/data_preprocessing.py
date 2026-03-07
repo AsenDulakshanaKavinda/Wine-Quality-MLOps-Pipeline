@@ -1,61 +1,62 @@
 import os
-
+from typing import Tuple
 import pandas as pd
 from pandas import DataFrame
 from pathlib import Path
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
+
 class DataPreprocessing():
-    def __init__(self):
-        pass
+    def __init__(self, cfg):
+        self.filepath: Path = Path(cfg.data.filepath)
+        self.target_col: str = cfg.data.target_column
+        self.num_col_list: list = cfg.data.numerical_columns
+        self.test_size: float = cfg.split.test_size
+        self.random_state: int = cfg.split.random_state
 
-
-    def data_ingestion(self, filepath: Path) -> DataFrame:
-        if not filepath:
+    def _data_ingestion(self) -> DataFrame:
+        if not self.filepath:
             raise ValueError("Filepath missing")
         
-        if not os.path.exists(filepath):
+        if not os.path.exists(self.filepath):
             raise FileExistsError("File dose not exist")
 
-        if not str(filepath).lower().endswith(".csv"):
+        if not str(self.filepath).lower().endswith(".csv"):
             raise ValueError("File is not a CSV file.")
         
         try:
-            df = pd.read_csv(filepath)
+            df = pd.read_csv(self.filepath)
             return df
         except Exception as e:
             raise RuntimeError(f"Error while data ingestion, error: {str(e)}") 
 
-    def data_normalization(self, df, num_col_list: list[str]) -> DataFrame:
+    def _data_normalization(self, df: DataFrame) -> DataFrame:
         if df is None or df.empty:
             raise ValueError("Missing dataframe")
-
-        if not num_col_list:
-            raise ValueError("Missing numerical columns list")
 
         scale = MinMaxScaler()
 
         try:
-            df[num_col_list] = scale.fit_transform(df[num_col_list])
+            df[self.num_col_list] = scale.fit_transform(df[self.num_col_list])
             return df
         except Exception as e:
             raise RuntimeError(f"Error while normalizing data, error: {str(e)}")
 
-    def data_split(self, df, target_col: str, test_size: float=0.2, random_state: int=42) -> tuple[DataFrame]:
-        if df is None or df.empty:
-            raise ValueError("Missing dataframe")  
 
-        if not target_col:
-            raise ValueError("Missing target column") 
 
-        try:
-            X = df.drop(target_col, axis=1)    
-            y = df[target_col]
+    def data_split(self) -> Tuple[DataFrame, DataFrame, DataFrame, DataFrame]:
+            
+            df = self._data_ingestion()
+            df = self._data_normalization(df)
 
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+            try:
+                X = df.drop(self.target_col, axis=1)    
+                y = df[self.target_col]
 
-            return X_train, X_test, y_train, y_test
-        
-        except Exception as e:
-            raise RuntimeError(f"Error while splitting data, error: {str(e)}")
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=self.test_size, random_state=self.random_state)
+
+                return X_train, X_test, y_train, y_test
+            
+            except Exception as e:
+                raise RuntimeError(f"Error while splitting data, error: {str(e)}")

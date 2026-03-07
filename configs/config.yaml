@@ -1,0 +1,9 @@
+defaults:
+  - _self_
+  - dataset: wine_quality
+  - model: random_forest_classifier
+  - optimizer: 
+  - env: dev
+
+training:
+  epochs: 100

@@ -1,5 +1,7 @@
+from training.train import train
+
 def main():
-    print("Hello from wine-quality-mlops-pipeline!")
+    train()
 
 
 if __name__ == "__main__":

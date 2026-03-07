@@ -1,0 +1,4 @@
+name: wine_quality
+path: ./data/wine_quality.csv
+batch_size: 
+num_classes: 
