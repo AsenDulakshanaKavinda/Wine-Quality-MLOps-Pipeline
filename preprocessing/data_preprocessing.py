@@ -1,6 +1,7 @@
 import os
 
 import pandas as pd
+from pandas import DataFrame
 from pathlib import Path
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
@@ -10,7 +11,7 @@ class DataPreprocessing():
         pass
 
 
-    def data_ingestion(self, filepath: Path):
+    def data_ingestion(self, filepath: Path) -> DataFrame:
         if not filepath:
             raise ValueError("Filepath missing")
         
@@ -24,10 +25,10 @@ class DataPreprocessing():
             df = pd.read_csv(filepath)
             return df
         except Exception as e:
-            RuntimeError(f"Error while data ingestion, error: {str(e)}") 
+            raise RuntimeError(f"Error while data ingestion, error: {str(e)}") 
 
-    def data_normalization(self, df, num_col_list: list[str]):
-        if not df:
+    def data_normalization(self, df, num_col_list: list[str]) -> DataFrame:
+        if df is None or df.empty:
             raise ValueError("Missing dataframe")
 
         if not num_col_list:
@@ -41,8 +42,8 @@ class DataPreprocessing():
         except Exception as e:
             raise RuntimeError(f"Error while normalizing data, error: {str(e)}")
 
-    def data_split(self, df, target_col: str, test_size: float=0.2, random_state: int=42):
-        if not df:
+    def data_split(self, df, target_col: str, test_size: float=0.2, random_state: int=42) -> tuple[DataFrame]:
+        if df is None or df.empty:
             raise ValueError("Missing dataframe")  
 
         if not target_col:
