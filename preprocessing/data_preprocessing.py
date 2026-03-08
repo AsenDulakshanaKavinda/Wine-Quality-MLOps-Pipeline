@@ -11,11 +11,12 @@ from utils import log
 
 class DataPreprocessing():
     def __init__(self, cfg):
-        self.filepath: Path = Path(cfg.data.filepath)
-        self.target_col: str = cfg.data.target_column
-        self.num_col_list: list = cfg.data.numerical_columns
-        self.test_size: float = cfg.split.test_size
-        self.random_state: int = cfg.split.random_state
+        self.filepath: Path = Path(cfg.dataset.filepath)
+        self.target_col: str = cfg.dataset.target_column
+        self.num_col_list: list = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar','chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']# cfg.dataset.numerical_columns
+        self.test_size: float = cfg.dataset.test_size
+        self.random_state: int = cfg.dataset.random_state
+
 
     def data_ingestion(self) -> DataFrame:
 
@@ -50,12 +51,15 @@ class DataPreprocessing():
         scale = MinMaxScaler()
 
         try:
-            df[self.num_col_list] = scale.fit_transform(df[self.num_col_list])
+            df[self.num_col_list] = pd.DataFrame(
+                scale.fit_transform(df[self.num_col_list]),
+                columns=self.num_col_list,
+                index=df.index
+            )
             log.info("Data normalization is completed")
             return df
         except Exception as e:
             raise RuntimeError(f"Error while normalizing data, error: {str(e)}")
-
 
 
     def data_split(self, df: DataFrame) -> Tuple[DataFrame, DataFrame, DataFrame, DataFrame]:

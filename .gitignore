@@ -210,3 +210,8 @@ __marimo__/
 # 
 outputs
 .outputs
+
+
+#
+mlflow
+.mlflow

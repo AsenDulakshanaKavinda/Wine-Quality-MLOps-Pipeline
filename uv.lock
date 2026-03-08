@@ -3178,6 +3178,7 @@ dependencies = [
     { name = "mlflow" },
     { name = "pandas" },
     { name = "pytest" },
+    { name = "skops" },
 ]
 
 [package.metadata]
@@ -3191,6 +3192,7 @@ requires-dist = [
     { name = "mlflow", specifier = ">=3.10.1" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "pytest", specifier = ">=9.0.2" },
+    { name = "skops", specifier = ">=0.13.0" },
 ]
 
 [[package]]

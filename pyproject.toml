@@ -14,4 +14,5 @@ dependencies = [
     "mlflow>=3.10.1",
     "pandas>=2.3.3",
     "pytest>=9.0.2",
+    "skops>=0.13.0",
 ]
