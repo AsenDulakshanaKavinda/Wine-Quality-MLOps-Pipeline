@@ -1,4 +1,4 @@
-from training.train import train
+from training import train
 
 def main():
     train()

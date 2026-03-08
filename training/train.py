@@ -1,7 +1,8 @@
 import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.metrics import accuracy_score
+from matplotlib.pyplot import plot
 import hydra
 from omegaconf import DictConfig
 
@@ -22,10 +23,31 @@ def train(cfg: DictConfig):
             max_depth=cfg.random_forest_classifier.max_depth
         )
 
-    print(cfg.dataset.name)
-    # print(cfg.model.type)
-    # print(cfg.optimizer.lr)
-    # print(cfg.env.mlflow_uri)
+        model.fit(X_train, y_test)
+
+        preds = model.predict(X_test)
+
+        acc = accuracy_score(y_test, preds)
+
+        mlflow.log_params({
+            "n_estimators": n_estimators,
+            "max_depth": max_depth            
+        })
+
+        # log metric
+        mlflow.log_metric("accuracy", acc)
+
+        # create artifact (plot)
+        plt.scatter(range(len(preds)), preds)
+        plt.title("Prediction Distribution")
+
+        plt.savefig("predictions.png")
+
+        # log artifact
+        mlflow.log_artifact("predictions.png")
+
+        # log model
+        mlflow.sklearn.log_model(model, "model")
 
 if __name__ == "__main__":
     train()
