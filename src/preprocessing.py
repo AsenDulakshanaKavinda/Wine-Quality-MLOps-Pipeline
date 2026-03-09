@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 class DataPreprocess:
     def __init__(self, cfg):
-        self.filepath: Path = Path(cfg.dataset.filepath)
+        self.filepath: Path = '/media/raptor/volume01/Wine-Quality-MLOps-Pipeline/data/wine_quality.csv' # Path(cfg.dataset.filepath)
         self.target_col:str = cfg.dataset.target_col
         self.test_size: float = cfg.dataset.test_size
         self.random_state: int = cfg.dataset.random_state
@@ -26,7 +26,7 @@ class DataPreprocess:
         
 
     def split_dataset(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-        if not df or df.empty:
+        if df is None or df.empty:
             raise ValueError("Error: dataframe is missing in splitting dataset")
         
         try:
