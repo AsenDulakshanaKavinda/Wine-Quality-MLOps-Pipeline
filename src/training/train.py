@@ -63,7 +63,7 @@ def train(cfg: DictConfig):
         mlflow.sklearn.log_model(
             sk_model=pipeline, 
             artifact_path="model", 
-            registered_model_name="wine-quality-model"
+            registered_model_name="wine-quality-model",
         )
 
         log.info(f"MLflow run completed: {run.info.run_id}")
