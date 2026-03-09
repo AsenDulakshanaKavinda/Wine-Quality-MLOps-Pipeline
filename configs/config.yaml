@@ -3,7 +3,7 @@ defaults:
   - dataset: wine_quality
   - model: random_forest_classifier
   - optimizer: 
-  - env: dev
+  - envm: dev
 
 hydra:
   run:
