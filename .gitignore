@@ -215,3 +215,5 @@ outputs
 #
 mlflow
 .mlflow
+
+logs
