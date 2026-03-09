@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 class DataPreprocess:
     def __init__(self, cfg):
-        self.filepath: Path = '/media/raptor/volume01/Wine-Quality-MLOps-Pipeline/data/wine_quality.csv' # Path(cfg.dataset.filepath)
+        self.filepath: Path = Path(cfg.dataset.filepath)
         self.target_col:str = cfg.dataset.target_col
         self.test_size: float = cfg.dataset.test_size
         self.random_state: int = cfg.dataset.random_state
