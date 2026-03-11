@@ -1,0 +1,4 @@
+filepath: /media/raptor/volume01/Wine-Quality-MLOps-Pipeline/data/wine_quality.csv
+target_col: quality
+test_size: 0.2
+random_state: 42
