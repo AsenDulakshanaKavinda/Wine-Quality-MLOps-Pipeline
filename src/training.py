@@ -10,6 +10,8 @@ from omegaconf import DictConfig
 
 from .preprocessing import DataPreprocess
 
+from utils.create_artifacts import create_prediction_plot
+
 mlflow.set_tracking_uri("http://localhost:5000")
 mlflow.set_experiment("Wine-quality-experiment")
 
@@ -46,9 +48,14 @@ def train(cfg: DictConfig):
 
         mlflow.sklearn.log_model(
             sk_model=pipeline,
-            artifact_path='sklearn-model',
+            name='sklearn-model',
             registered_model_name='wine-quality-model'
         )
+
+        artifact_path = "mlartifacts/tmp/predictions.png"
+        create_prediction_plot(predictions=predictions, artifact_path=artifact_path)
+        mlflow.log_artifact(artifact_path)
+
 
         print(f"MLflow run completed: {run.info.run_id}")
 

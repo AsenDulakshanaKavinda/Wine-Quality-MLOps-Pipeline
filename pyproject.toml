@@ -13,6 +13,8 @@ dependencies = [
     "matplotlib>=3.10.8",
     "mlflow>=3.10.1",
     "pandas>=2.3.3",
+    "prometheus-client>=0.24.1",
+    "prometheus-fastapi-instrumentator>=7.1.0",
     "pytest>=9.0.2",
     "skops>=0.13.0",
 ]
