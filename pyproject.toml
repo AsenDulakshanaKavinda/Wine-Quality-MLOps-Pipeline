@@ -17,4 +17,5 @@ dependencies = [
     "prometheus-fastapi-instrumentator>=7.1.0",
     "pytest>=9.0.2",
     "skops>=0.13.0",
+    "streamlit>=1.55.0",
 ]

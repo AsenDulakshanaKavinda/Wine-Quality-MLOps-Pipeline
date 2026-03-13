@@ -3,6 +3,7 @@ defaults:
   - dataset: red_wine_quality
   - model: random_forest_classifier
   - envm: dev
+  - ui: streamlit
 
 
 hydra:
