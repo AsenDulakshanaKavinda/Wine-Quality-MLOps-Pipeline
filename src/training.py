@@ -5,19 +5,15 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score
 
-import hydra
-from omegaconf import DictConfig
-
 from .preprocessing import DataPreprocess
 
-from utils.create_artifacts import create_prediction_plot
+from utils import cfg, create_prediction_plot, log
 
-mlflow.set_tracking_uri("http://localhost:5000")
-mlflow.set_experiment("Wine-quality-experiment")
+mlflow.set_tracking_uri(cfg.environment.mlflow_tracking_uri)
+mlflow.set_experiment(cfg.environment.mlflow_experiment_name)
 
-@hydra.main(version_base=None, config_path="../config", config_name="config")
-def train(cfg: DictConfig):
 
+def train():
     preprocessing = DataPreprocess(cfg=cfg)
     df = preprocessing.load_dataset()
     X_train, X_test, y_train, y_test = preprocessing.split_dataset(df=df)

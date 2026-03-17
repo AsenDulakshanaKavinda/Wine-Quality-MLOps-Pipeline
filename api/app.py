@@ -14,9 +14,9 @@ with initialize_config_dir(version_base=None, config_dir=CONFIG_PATH):
 
 app = FastAPI()
 
-MLFLOW_TRACKING_URI = cfg.envm.mlflow_tracking_uri
-MODEL_NAME = cfg.envm.model_name
-MODEL_VERSION = cfg.envm.model_version
+MLFLOW_TRACKING_URI = cfg.environment.mlflow_tracking_uri
+MODEL_NAME = cfg.environment.model_name
+MODEL_VERSION = cfg.environment.model_version
 
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 model_uri = f"models:/{MODEL_NAME}/{MODEL_VERSION}"
